@@ -11,9 +11,6 @@ Gem::Specification.new do |spec|
   spec.summary = "Ruby wrapper library for the Cobhan FFI system"
   spec.description = "Cobhan FFI is a proof of concept system for enabling shared code to be written in Rust or Go and consumed from all major languages/platforms in a safe and effective way, using easy helper functions to manage any unsafe data marshaling."
 
-  spec.summary       = 'Wrapper sample for Golang c-shared build'
-  spec.description   = 'Wrapper sample for Golang c-shared build implementation'
-
   spec.homepage = "https://github.com/godaddy/cobhan-ruby"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.5.0"
