@@ -1,8 +1,26 @@
 # Cobhan
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cobhan`. To experiment with that code, run `bin/console` for an interactive prompt.
+Cobhan FFI is a proof of concept system for enabling shared code to be written in Rust or Go and consumed from all major languages/platforms in a safe and effective way, using easy helper functions to manage any unsafe data marshaling.
 
-TODO: Delete this and the text above, and describe your gem
+## Types
+
+* Supported types
+  * int32 - 32bit signed integer
+  * int64 - 64bit signed integer
+  * float64 - double precision 64bit IEEE 754 floating point
+  * Cobhan buffer - length delimited 8bit buffer (no null delimiters)
+      * utf-8 encoded string
+      * JSON
+      * binary data
+* Cobhan buffer details
+  * Callers provide the output buffer allocation and capacity
+  * Called functions can transparently return larger values via temporary files
+  * **Modern [tmpfs](https://en.wikipedia.org/wiki/Tmpfs) is entirely memory backed**
+* Return values
+  * Functions that return scalar values can return the value directly
+    * Functions *can* use special case and return maximum positive or maximum negative or zero values to represent error or overflow conditions
+    * Functions *can* allow scalar values to wrap
+    * Functions should document their overflow / underflow behavior
 
 ## Installation
 
@@ -32,8 +50,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/cobhan.
+Bug reports and pull requests are welcome on GitHub at https://github.com/godaddy/cobhan-ruby.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT License](LICENSE.txt).
