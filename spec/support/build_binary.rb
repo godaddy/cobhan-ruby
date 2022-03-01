@@ -9,7 +9,7 @@ def build_binary(lib_root_path, lib_name)
       abort("Aborted.") unless input.downcase == "y"
     end
 
-    Dir.mkdir(lib_root_path) unless File.exists?(lib_root_path)
+    Dir.mkdir(lib_root_path) unless File.exist?(lib_root_path)
     system("./spec/support/#{lib_name}/build.sh", exception: true)
   end
 end
