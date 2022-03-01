@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ ubuntu-20.04, macos-11 ]
         ruby: [ '3.0', '3.1' ]
+      fail-fast: false
 
     env:
       AUTO_CONFIRM_BUILD: true
