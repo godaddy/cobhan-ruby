@@ -17,7 +17,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before(:suite) do
-    download_binary(LIB_ROOT_PATH, LIB_NAME)
+    build_binary(LIB_ROOT_PATH, LIB_NAME)
   end
 
   config.expect_with :rspec do |c|

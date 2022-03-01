@@ -44,27 +44,25 @@ gem install cobhan
 
 ## Usage
 
-TODO: Write usage instructions here
-
-## Demo
-
-By running the demo, it will automatically download the binary from the [releases page](https://github.com/jgowdy/cobhan/releases/tag/current).
+By running the demo, it will automatically build the sample [libcobhandemo](spec/support/libcobhandemo/libcobhandemo.go) binary.
 
 ```bash
 bundle exec ruby demo/demo.rb
 ```
 
-## Running specs
-
-```bash
-bundle exec rspec spec
-```
+Once the binary is built, to rebuilt it, you'll have to cleanup the `tmp` dir.
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+### Running specs
+
+```bash
+bundle exec rspec spec
+```
 
 ## Contributing
 

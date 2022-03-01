@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'cobhan'
-require_relative './../spec/support/download_binary'
+require_relative './../spec/support/build_binary'
 require_relative './../spec/support/measure_time'
 require_relative './../spec/support/cobhan_module'
 
@@ -9,7 +9,7 @@ require_relative './../spec/support/cobhan_module'
 LIB_ROOT_PATH =  File.join(File.expand_path(File.dirname(__FILE__)), '../tmp')
 LIB_NAME = 'libcobhandemo'
 
-download_binary(LIB_ROOT_PATH, LIB_NAME)
+build_binary(LIB_ROOT_PATH, LIB_NAME)
 
 class CobhanDemo
   include CobhanModule
