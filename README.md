@@ -32,15 +32,33 @@ gem 'cobhan'
 
 And then execute:
 
-    $ bundle install
+```bash
+bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install cobhan
+```bash
+gem install cobhan
+```
 
 ## Usage
 
 TODO: Write usage instructions here
+
+## Demo
+
+By running the demo, it will automatically download the binary from the [releases page](https://github.com/jgowdy/cobhan/releases/tag/current).
+
+```bash
+bundle exec ruby demo/demo.rb
+```
+
+## Running specs
+
+```bash
+bundle exec rspec spec
+```
 
 ## Development
 
