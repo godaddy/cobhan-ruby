@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} ${{ matrix.ruby }}
+    strategy:
+      matrix:
+        os: [ ubuntu-20.04, macos-11 ]
+        ruby: [ '3.0', '3.1' ]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: default
+          bundler-cache: true
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.17.7'
+
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-20.04'
+        shell: bash
+        run: |
+          BUILD_DIR="tmp"
+          mkdir $BUILD_DIR
+          cp -R spec/support/libcobhandemo/* $BUILD_DIR
+          cd tmp
+          GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.so libcobhandemo.go
+
+      - name: Build Darwin
+        if: matrix.os == 'macos-11'
+        shell: bash
+        run: |
+          BUILD_DIR="tmp"
+          mkdir $BUILD_DIR
+          cp -R spec/support/libcobhandemo/* $BUILD_DIR
+          cd tmp
+          GOOS=darwin GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.dylib libcobhandemo.go
+
+      - name: Run tests
+        run: |
+          bundle exec rspec spec
