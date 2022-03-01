@@ -64,6 +64,16 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 bundle exec rspec spec
 ```
 
+### Running specs inside vagrant
+
+```bash
+vagrant up
+vagrant ssh
+cd /vagrant/
+bundle install
+bundle exec rspec spec
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/godaddy/cobhan-ruby.
