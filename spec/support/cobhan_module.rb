@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 module CobhanModule
   module FFI
     extend Cobhan
 
     FUNCTIONS = [
-      [ :addInt32, [ :int32, :int32 ], :int32 ],
-      [ :addInt64, [ :int64, :int64 ], :int64 ],
-      [ :addDouble, [ :double, :double ], :double ],
-      [ :toUpper, [ :pointer, :pointer ], :int32 ],
-      [ :filterJson, [ :pointer, :pointer, :pointer ], :int32 ],
-      [ :sleepTest, [ :int32 ], :void, blocking: true ],
-      [ :base64Encode, [ :pointer, :pointer], :int32 ],
-    ]
+      [:addInt32, [:int32, :int32], :int32],
+      [:addInt64, [:int64, :int64], :int64],
+      [:addDouble, [:double, :double], :double],
+      [:toUpper, [:pointer, :pointer], :int32],
+      [:filterJson, [:pointer, :pointer, :pointer], :int32],
+      [:sleepTest, [:int32], :void, blocking: true],
+      [:base64Encode, [:pointer, :pointer], :int32]
+    ].freeze
 
     def self.init(lib_root_path, name)
       load_library(lib_root_path, name, FUNCTIONS)

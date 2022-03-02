@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "cobhan/version"
+require_relative 'cobhan/version'
 
 require 'ffi'
 
+# Cobhan module includes helper functions to manage unsafe data marshaling.
 module Cobhan
   UnsupportedPlatformError = Class.new(StandardError)
 
@@ -58,7 +59,7 @@ module Cobhan
     length = 0 - length
     filename = buffer.get_bytes(BUFFER_HEADER_SIZE, length)
     # Read file with name in payload, and replace payload
-    bytes = IO.binread(filename)
+    bytes = File.binread(filename)
     File.delete(filename)
     bytes
   end

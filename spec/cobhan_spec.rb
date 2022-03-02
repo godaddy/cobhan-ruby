@@ -10,18 +10,24 @@ class CobhanApp
   end
 end
 
-RSpec.describe 'Cobhan Functions' do
+RSpec.describe Cobhan do
   let(:input) { 'test' }
+
+  describe 'version' do
+    it 'has a version number' do
+      expect(Cobhan::VERSION).not_to be nil
+    end
+  end
 
   describe 'library_file_name' do
     it 'returns file name for supported OS / ARCH combinations' do
       {
-        [ 'linux', 'x86_64' ] => 'lib-x64.so',
-        [ 'linux', 'aarch64' ] => 'lib-arm64.so',
-        [ 'darwin', 'x86_64' ] => 'lib-x64.dylib',
-        [ 'darwin', 'aarch64' ] => 'lib-arm64.dylib',
-        [ 'windows', 'x86_64' ] => 'lib-x64.dll',
-        [ 'windows', 'aarch64' ] => 'lib-arm64.dll',
+        ['linux', 'x86_64'] => 'lib-x64.so',
+        ['linux', 'aarch64'] => 'lib-arm64.so',
+        ['darwin', 'x86_64'] => 'lib-x64.dylib',
+        ['darwin', 'aarch64'] => 'lib-arm64.dylib',
+        ['windows', 'x86_64'] => 'lib-x64.dll',
+        ['windows', 'aarch64'] => 'lib-arm64.dll'
       }.each_pair do |(os, arch), file|
         stub_const('FFI::Platform::OS', os)
         stub_const('FFI::Platform::ARCH', arch)
@@ -59,9 +65,10 @@ RSpec.describe 'Cobhan Functions' do
         expect(e.message).to include("undefined method `addInt32'")
       end
 
-      CobhanApp.load_library(LIB_ROOT_PATH, LIB_NAME, [
-        [ :addInt32, [ :int32, :int32 ], :int32 ],
-      ])
+      CobhanApp.load_library(
+        LIB_ROOT_PATH, LIB_NAME,
+        [[:addInt32, [:int32, :int32], :int32]]
+      )
 
       expect(CobhanApp.add_int32(1, 1)).to eq(2)
     end
@@ -83,18 +90,19 @@ RSpec.describe 'Cobhan Functions' do
     end
 
     it 'returns a string from C buffer pointing to a temp file' do
-      CobhanApp.load_library(LIB_ROOT_PATH, LIB_NAME, [
-        [ :toUpper, [ :pointer, :pointer ], :int32 ],
-      ])
+      CobhanApp.load_library(
+        LIB_ROOT_PATH, LIB_NAME,
+        [[:toUpper, [:pointer, :pointer], :int32]]
+      )
 
-     in_buffer = CobhanApp.string_to_cbuffer('a' * 2048)
-     out_buffer = CobhanApp.allocate_cbuffer(50)
+      in_buffer = CobhanApp.string_to_cbuffer('a' * 2048)
+      out_buffer = CobhanApp.allocate_cbuffer(50)
 
-     result = CobhanApp.toUpper(in_buffer, out_buffer)
-     expect(result).to eq(0)
+      result = CobhanApp.toUpper(in_buffer, out_buffer)
+      expect(result).to eq(0)
 
-     expect(CobhanApp).to receive(:temp_to_string).and_call_original
-     expect(CobhanApp.cbuffer_to_string(out_buffer)).to eq('A' * 2048)
+      expect(CobhanApp).to receive(:temp_to_string).and_call_original
+      expect(CobhanApp.cbuffer_to_string(out_buffer)).to eq('A' * 2048)
     end
   end
 

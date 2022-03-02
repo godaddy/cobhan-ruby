@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def measure_time
   start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   yield

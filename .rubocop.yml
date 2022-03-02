@@ -1,13 +1,31 @@
 AllCops:
   TargetRubyVersion: 2.5
-
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
-
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'Vagrantfile'
+    - 'vendor/**/*' # Github Actions
 
 Layout/LineLength:
   Max: 120
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/HashAsLastArrayItem:
+  Enabled: false
