@@ -5,12 +5,12 @@ require_relative './../spec/support/build_binary'
 require_relative './../spec/support/measure_time'
 require_relative './../spec/support/cobhan_module'
 
-
-LIB_ROOT_PATH =  File.join(File.expand_path(File.dirname(__FILE__)), '../tmp')
+LIB_ROOT_PATH =  File.join(__dir__, '../tmp')
 LIB_NAME = 'libcobhandemo'
 
 build_binary(LIB_ROOT_PATH, LIB_NAME)
 
+# CobhanDemo class
 class CobhanDemo
   include CobhanModule
 

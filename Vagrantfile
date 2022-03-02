@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$script = <<-SCRIPT
+SCRIPT = <<~SCRIPT
 set -e
 
 echo "Install RVM"
@@ -25,7 +25,7 @@ sudo usermod -aG docker $USER
 sudo systemctl restart docker.service
 SCRIPT
 
-Vagrant.configure("2") do |config|
-  config.vm.box = "centos/7"
-  config.vm.provision "shell", inline: $script, privileged: false
+Vagrant.configure('2') do |config|
+  config.vm.box = 'centos/7'
+  config.vm.provision 'shell', inline: SCRIPT, privileged: false
 end
