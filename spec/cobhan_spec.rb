@@ -10,8 +10,14 @@ class CobhanApp
   end
 end
 
-RSpec.describe 'Cobhan Functions' do
+RSpec.describe Cobhan do
   let(:input) { 'test' }
+
+  describe 'version' do
+    it "has a version number" do
+      expect(Cobhan::VERSION).not_to be nil
+    end
+  end
 
   describe 'library_file_name' do
     it 'returns file name for supported OS / ARCH combinations' do
