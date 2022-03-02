@@ -4,6 +4,7 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - 'Vagrantfile'
+    - 'vendor/**/*' # Github Actions
 
 Layout/LineLength:
   Max: 120
