@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} ${{ matrix.ruby }}
+    name: ${{ matrix.os }} ruby-${{ matrix.ruby }}
     strategy:
       matrix:
         os: [ ubuntu-20.04, macos-11 ]
