@@ -53,6 +53,10 @@ jobs:
           cd tmp
           GOOS=darwin GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.dylib libcobhandemo.go
 
-      - name: Run tests
+      - name: Run specs
         run: |
           bundle exec rspec spec
+
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
