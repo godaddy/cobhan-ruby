@@ -14,11 +14,6 @@ import (
 func main() {
 }
 
-// Sample library exports for client testing
-func init() {
-  //rand.Seed(time.Now().UnixNano())
-}
-
 //export sleepTest
 func sleepTest(seconds int32) {
   time.Sleep(time.Duration(seconds) * time.Second)
