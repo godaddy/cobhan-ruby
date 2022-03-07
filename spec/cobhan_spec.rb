@@ -144,4 +144,21 @@ RSpec.describe Cobhan do
       end
     end
   end
+
+  describe 'int_to_buffer' do
+    it 'creates a buffer for interger value' do
+      number = (2**63) - 1
+      memory_pointer = CobhanApp.int_to_buffer(number)
+      expect(memory_pointer.get_int64(0)).to eq(number)
+      expect(memory_pointer.size).to eq(Cobhan::SIZEOF_INT32 * 2)
+    end
+  end
+
+  describe 'buffer_to_int' do
+    it 'converts a buffer to integer value' do
+      number = (2**63) - 1
+      memory_pointer = CobhanApp.int_to_buffer(number)
+      expect(CobhanApp.buffer_to_int(memory_pointer)).to eq(number)
+    end
+  end
 end
