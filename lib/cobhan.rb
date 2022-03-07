@@ -71,4 +71,14 @@ module Cobhan
     buffer_ptr.put_int32(SIZEOF_INT32, 0) # Reserved - must be zero
     buffer_ptr
   end
+
+  def int_to_buffer(number)
+    buffer_ptr = FFI::MemoryPointer.new(1, SIZEOF_INT32 * 2, false)
+    buffer_ptr.put_int64(0, number)
+    buffer_ptr
+  end
+
+  def buffer_to_int(buffer_ptr)
+    buffer_ptr.get_int64(0)
+  end
 end
