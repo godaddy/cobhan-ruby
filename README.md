@@ -72,6 +72,10 @@ vagrant ssh
 cd /vagrant/
 bundle install
 bundle exec rspec spec
+
+# Or to run specs on arm64 inside vagrant:
+cd /vagrant/
+spec/support/libcobhandemo/arm64_build_and_test.sh
 ```
 
 ## Contributing
