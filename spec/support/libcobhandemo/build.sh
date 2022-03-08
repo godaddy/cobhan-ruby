@@ -10,6 +10,10 @@ case $(uname -m) in
     SYS_FN_PART="x64"
     GOARCH="amd64"
     ;;
+  "aarch64")
+    SYS_FN_PART="arm64"
+    GOARCH="arm64"
+    ;;
   *)
     echo "Unknown machine $(uname -m)!"
     exit 255
