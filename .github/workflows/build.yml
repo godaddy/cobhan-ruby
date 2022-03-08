@@ -63,7 +63,7 @@ jobs:
 
   build_arm64:
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} ruby-${{ matrix.ruby }} qemu
+    name: ${{ matrix.os }} ruby-${{ matrix.ruby }} arm64
     strategy:
       matrix:
         include:
