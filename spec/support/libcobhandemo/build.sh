@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euo pipefail
+set -euo
 
 LIB_NAME=libcobhandemo
 SRC_DIR="spec/support/$LIB_NAME"
