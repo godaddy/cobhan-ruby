@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euo pipefail
+set -euo
 
 LIB_NAME=libcobhandemo
 SRC_DIR="spec/support/$LIB_NAME"
@@ -9,6 +9,10 @@ case $(uname -m) in
   "x86_64")
     SYS_FN_PART="x64"
     GOARCH="amd64"
+    ;;
+  "aarch64")
+    SYS_FN_PART="arm64"
+    GOARCH="arm64"
     ;;
   *)
     echo "Unknown machine $(uname -m)!"
