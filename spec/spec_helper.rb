@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+if ENV['COVERAGE'] == 'true'
+  require 'simplecov'
+  require 'simplecov-console'
+
+  SimpleCov.formatter = SimpleCov::Formatter::Console
+  SimpleCov.start do
+    add_filter 'spec/support/build_binary.rb'
+  end
+end
+
 require 'cobhan'
 
 ROOT = File.expand_path('../', File.dirname(__FILE__))
