@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.3] - 2022-03-14
+
 - Switch from `centos/7` to `ubuntu/focal64` vagrant box
 - Add ARM64 build and test script for vagrant
 - Add ARM64 build for Github Actions
