@@ -77,9 +77,9 @@ RSpec.describe Cobhan do
   describe 'string_to_cbuffer' do
     it 'return a memory pointer to C buffer' do
       memory_pointer = CobhanApp.string_to_cbuffer(input)
-      expect(memory_pointer.get_int32(0)).to eq(input.length)
+      expect(memory_pointer.get_int32(0)).to eq(input.bytesize)
       expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
-      expect(memory_pointer.get_bytes(Cobhan::BUFFER_HEADER_SIZE, input.length)).to eq(input)
+      expect(memory_pointer.get_bytes(Cobhan::BUFFER_HEADER_SIZE, input.bytesize)).to eq(input)
     end
   end
 
@@ -96,7 +96,9 @@ RSpec.describe Cobhan do
       )
 
       in_buffer = CobhanApp.string_to_cbuffer('a' * 2048)
-      out_buffer = CobhanApp.allocate_cbuffer(50)
+      # Output buffer size must be big enough for storing the temp file name at least
+      estimated_max_size_of_tmp_fize_name = 128
+      out_buffer = CobhanApp.allocate_cbuffer(estimated_max_size_of_tmp_fize_name)
 
       result = CobhanApp.toUpper(in_buffer, out_buffer)
       expect(result).to eq(0)
@@ -126,22 +128,11 @@ RSpec.describe Cobhan do
   end
 
   describe 'allocate_cbuffer' do
-    context 'size <= 1024' do
-      it 'returns a memory pointer to C buffer with size of 1024' do
-        memory_pointer = CobhanApp.allocate_cbuffer(10)
-        expect(memory_pointer.get_int32(0)).to eq(1024)
-        expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
-        expect(memory_pointer.size).to eq(1024 + Cobhan::BUFFER_HEADER_SIZE)
-      end
-    end
-
-    context 'size > 1024' do
-      it 'returns a memory pointer to C buffer with the specified size' do
-        memory_pointer = CobhanApp.allocate_cbuffer(1111)
-        expect(memory_pointer.get_int32(0)).to eq(1111)
-        expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
-        expect(memory_pointer.size).to eq(1111 + Cobhan::BUFFER_HEADER_SIZE)
-      end
+    it 'returns a memory pointer to C buffer with requested size' do
+      memory_pointer = CobhanApp.allocate_cbuffer(10)
+      expect(memory_pointer.get_int32(0)).to eq(10)
+      expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
+      expect(memory_pointer.size).to eq(10 + Cobhan::BUFFER_HEADER_SIZE)
     end
   end
 

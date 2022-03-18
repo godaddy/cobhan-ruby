@@ -15,7 +15,6 @@ module Cobhan
 
   SIZEOF_INT32 = 32 / 8
   BUFFER_HEADER_SIZE = SIZEOF_INT32 * 2
-  MINIMUM_ALLOCATION = 1024
 
   def library_file_name(name)
     ext = EXTS[FFI::Platform::OS]
@@ -65,7 +64,6 @@ module Cobhan
   end
 
   def allocate_cbuffer(size)
-    size = [size, MINIMUM_ALLOCATION].max
     buffer_ptr = FFI::MemoryPointer.new(1, BUFFER_HEADER_SIZE + size, false)
     buffer_ptr.put_int32(0, size)
     buffer_ptr.put_int32(SIZEOF_INT32, 0) # Reserved - must be zero
