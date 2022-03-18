@@ -44,7 +44,7 @@ module CobhanModule
   def filter_json(json_input, disallowed_value)
     json_input_buffer = FFI.string_to_cbuffer(json_input)
     disallowed_value_buffer = FFI.string_to_cbuffer(disallowed_value)
-    json_output_buffer = FFI.allocate_cbuffer(json_input.length)
+    json_output_buffer = FFI.allocate_cbuffer(json_input.bytesize)
 
     result = FFI.filterJson(json_input_buffer, disallowed_value_buffer, json_output_buffer)
     raise 'Failed to filter json' if result.negative?
@@ -54,7 +54,7 @@ module CobhanModule
 
   def base64_encode(input)
     input_buffer = FFI.string_to_cbuffer(input)
-    output_buffer = FFI.allocate_cbuffer(input.length)
+    output_buffer = FFI.allocate_cbuffer(base64_overhead(input.bytesize))
 
     result = FFI.base64Encode(input_buffer, output_buffer)
     raise 'Failed to base64 encode' if result.negative?
@@ -64,5 +64,11 @@ module CobhanModule
 
   def sleep_test(seconds)
     FFI.sleepTest(seconds)
+  end
+
+  private
+
+  def base64_overhead(size)
+    ((4 * size / 3) + 3) & ~3
   end
 end
