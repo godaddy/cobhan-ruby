@@ -51,7 +51,7 @@ module Cobhan
       buffer.get_bytes(BUFFER_HEADER_SIZE, length)
     else
       temp_to_string(buffer, length)
-    end
+    end.force_encoding(Encoding::UTF_8)
   end
 
   def temp_to_string(buffer, length)

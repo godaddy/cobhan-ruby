@@ -86,7 +86,9 @@ RSpec.describe Cobhan do
   describe 'cbuffer_to_string' do
     it 'returns a string from C buffer' do
       memory_pointer = CobhanApp.string_to_cbuffer(input)
-      expect(CobhanApp.cbuffer_to_string(memory_pointer)).to eq(input)
+      output = CobhanApp.cbuffer_to_string(memory_pointer)
+      expect(output).to eq(input)
+      expect(output.encoding).to eq(Encoding::UTF_8)
     end
 
     it 'returns a string from C buffer pointing to a temp file' do
@@ -104,7 +106,9 @@ RSpec.describe Cobhan do
       expect(result).to eq(0)
 
       expect(CobhanApp).to receive(:temp_to_string).and_call_original
-      expect(CobhanApp.cbuffer_to_string(out_buffer)).to eq('A' * 2048)
+      output = CobhanApp.cbuffer_to_string(out_buffer)
+      expect(output).to eq('A' * 2048)
+      expect(output.encoding).to eq(Encoding::UTF_8)
     end
   end
 
