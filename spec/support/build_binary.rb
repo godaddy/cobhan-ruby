@@ -6,12 +6,12 @@ def build_binary(lib_root_path, lib_name)
 
   return if File.exist?(lib_path)
 
-  if ENV['AUTO_CONFIRM_BUILD'] != 'true'
+  if ENV.fetch('AUTO_CONFIRM_BUILD', nil) != 'true'
     puts "#{lib_path} is not present, do you want to build it? [y/N]"
     input = $stdin.gets.chomp
     abort('Aborted.') unless input.downcase == 'y'
   end
 
-  Dir.mkdir(lib_root_path) unless File.exist?(lib_root_path)
+  Dir.mkdir_p(lib_root_path)
   system("./spec/support/#{lib_name}/build.sh", exception: true)
 end

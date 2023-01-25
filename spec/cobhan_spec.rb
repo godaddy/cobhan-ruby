@@ -22,15 +22,18 @@ RSpec.describe Cobhan do
   describe 'library_file_name' do
     it 'returns file name for supported OS / ARCH combinations' do
       {
-        ['linux', 'x86_64'] => 'lib-x64.so',
-        ['linux', 'aarch64'] => 'lib-arm64.so',
-        ['darwin', 'x86_64'] => 'lib-x64.dylib',
-        ['darwin', 'aarch64'] => 'lib-arm64.dylib',
-        ['windows', 'x86_64'] => 'lib-x64.dll',
-        ['windows', 'aarch64'] => 'lib-arm64.dll'
-      }.each_pair do |(os, arch), file|
+        ['linux', 'x86_64', 'linux'] => 'lib-x64.so',
+        ['linux', 'aarch64', 'linux'] => 'lib-arm64.so',
+        ['linux', 'x86_64', 'linux-musl'] => 'lib-x64-musl.so',
+        ['linux', 'aarch64', 'linux-musl'] => 'lib-arm64-musl.so',
+        ['darwin', 'x86_64', 'darwin20'] => 'lib-x64.dylib',
+        ['darwin', 'aarch64', 'darwin20'] => 'lib-arm64.dylib',
+        ['windows', 'x86_64', 'mswin'] => 'lib-x64.dll',
+        ['windows', 'aarch64', 'mswin'] => 'lib-arm64.dll'
+      }.each_pair do |(os, arch, host_os), file|
         stub_const('FFI::Platform::OS', os)
         stub_const('FFI::Platform::ARCH', arch)
+        stub_const('RbConfig::CONFIG', { 'host_os' => host_os })
 
         expect(CobhanApp.library_file_name('lib')).to eq(file)
       end
