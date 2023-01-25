@@ -3,6 +3,7 @@
 ## [0.2.1] - 2023-01-25
 
 - Support non GNU Lib C library file names with `load_library`
+- Add Ruby 3.2 to the test matrix
 
 ## [0.2.0] - 2022-03-18
 
