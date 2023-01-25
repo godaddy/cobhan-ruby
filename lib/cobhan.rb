@@ -23,7 +23,9 @@ module Cobhan
     cpu_arch = CPU_ARCHS[FFI::Platform::ARCH]
     raise UnsupportedPlatformError, "Unsupported CPU: #{FFI::Platform::ARCH}" unless cpu_arch
 
-    "#{name}-#{cpu_arch}.#{ext}"
+    libc_suffix = RbConfig::CONFIG['host_os'] == 'linux-musl' ? '-musl' : ''
+
+    "#{name}-#{cpu_arch}#{libc_suffix}.#{ext}"
   end
 
   def load_library(lib_root_path, name, functions)
