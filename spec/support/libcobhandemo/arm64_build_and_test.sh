@@ -6,7 +6,7 @@ DYN_EXT="so"
 SYS_FN_PART="arm64"
 GOARCH="arm64"
 OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.$DYN_EXT"
-DOCKER_IMG=golang:1.17.7-bullseye
+DOCKER_IMG=golang:1.20.5-bullseye
 BUILD_CMD="GOOS=linux GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
 BUILD_DIR="tmp/build/linux-arm64"
 
