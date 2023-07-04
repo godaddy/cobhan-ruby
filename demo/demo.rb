@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'cobhan'
-require_relative './../spec/support/build_binary'
-require_relative './../spec/support/measure_time'
-require_relative './../spec/support/cobhan_module'
+require_relative '../spec/support/build_binary'
+require_relative '../spec/support/measure_time'
+require_relative '../spec/support/cobhan_module'
 
 LIB_ROOT_PATH =  File.join(__dir__, '../tmp')
 LIB_NAME = 'libcobhandemo'

@@ -12,6 +12,6 @@ def build_binary(lib_root_path, lib_name)
     abort('Aborted.') unless input.downcase == 'y'
   end
 
-  Dir.mkdir_p(lib_root_path)
+  FileUtils.mkdir_p(lib_root_path)
   system("./spec/support/#{lib_name}/build.sh", exception: true)
 end

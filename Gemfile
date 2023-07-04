@@ -6,3 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rake', '~> 13.0'
+gem 'rspec', '~> 3.10.0'
+gem 'rubocop', '~> 1.7'
+gem 'simplecov', '~> 0.21.2'
+gem 'simplecov-console', '~> 0.9.1'
