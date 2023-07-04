@@ -24,13 +24,13 @@ esac
 # OS Detection
 case $(uname -s) in
   "Darwin")
-    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.dylib"
-    BUILD_CMD="GOOS=darwin GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
+    GOOS=darwin
+    DYN_EXT="dylib"
     BUILD_DIR="tmp/build/darwin"
     ;;
   "Linux")
-    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.so"
-    BUILD_CMD="GOOS=linux GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
+    GOOS=linux
+    DYN_EXT="so"
     BUILD_DIR="tmp/build/linux"
     ;;
   *)
@@ -38,6 +38,9 @@ case $(uname -s) in
     exit 255
     ;;
 esac
+
+OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.$DYN_EXT"
+BUILD_CMD="GOOS=$GOOS GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
 
 mkdir -p $BUILD_DIR
 cp -R $SRC_DIR/* $BUILD_DIR
