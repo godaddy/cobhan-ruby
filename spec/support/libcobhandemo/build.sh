@@ -2,6 +2,7 @@
 set -euo
 
 LIB_NAME=libcobhandemo
+ROOT_DIR=$(pwd)
 SRC_DIR="spec/support/$LIB_NAME"
 
 # Normalize machine architecture for file names
@@ -10,7 +11,7 @@ case $(uname -m) in
     SYS_FN_PART="x64"
     GOARCH="amd64"
     ;;
-  "aarch64")
+  "aarch64" | "arm64")
     SYS_FN_PART="arm64"
     GOARCH="arm64"
     ;;
@@ -23,16 +24,12 @@ esac
 # OS Detection
 case $(uname -s) in
   "Darwin")
-    DYN_EXT="dylib"
-    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.$DYN_EXT"
-    DOCKER_IMG=neilotoole/xcgo:go1.17
-    BUILD_CMD="GOOS=darwin GOARCH=$GOARCH CC=o64-clang CXX=o64-clang++ go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
+    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.dylib"
+    BUILD_CMD="GOOS=darwin GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
     BUILD_DIR="tmp/build/darwin"
     ;;
   "Linux")
-    DYN_EXT="so"
-    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.$DYN_EXT"
-    DOCKER_IMG=golang:1.17.7-bullseye
+    OUTPUT_FILE="$LIB_NAME-$SYS_FN_PART.so"
     BUILD_CMD="GOOS=linux GOARCH=$GOARCH go build -buildmode=c-shared -ldflags='-s -w' -o $OUTPUT_FILE $LIB_NAME.go"
     BUILD_DIR="tmp/build/linux"
     ;;
@@ -44,19 +41,9 @@ esac
 
 mkdir -p $BUILD_DIR
 cp -R $SRC_DIR/* $BUILD_DIR
+cd $BUILD_DIR
 
-# Debug
-echo $BUILD_CMD
-# docker run -it --rm --name cobhan-builder \
-#   --volume "$(pwd)/$BUILD_DIR":/usr/src/cobhan \
-#   -w /usr/src/cobhan \
-#   $DOCKER_IMG \
-#   bash
-
-docker run --rm --name cobhan-builder \
-  --volume "$(pwd)/$BUILD_DIR":/usr/src/cobhan \
-  -w /usr/src/cobhan \
-  $DOCKER_IMG \
-  sh -c "$BUILD_CMD"
-
+echo "$BUILD_CMD"
+sh -c "$BUILD_CMD"
+cd "$ROOT_DIR"
 cp $BUILD_DIR/$OUTPUT_FILE tmp/
