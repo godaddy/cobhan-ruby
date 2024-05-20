@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.2.2] - 2024-05-20
+
+- Relax FFI dependency
+
 ## [0.2.1] - 2023-01-25
 
 - Support non GNU Lib C library file names with `load_library`
