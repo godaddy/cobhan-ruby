@@ -39,6 +39,8 @@ module CobhanModule
     raise 'Failed to convert toUpper' if result.negative?
 
     FFI.cbuffer_to_string(out_buffer)
+  ensure
+    [in_buffer, out_buffer].compact.each(&:free)
   end
 
   def filter_json(json_input, disallowed_value)
@@ -50,6 +52,8 @@ module CobhanModule
     raise 'Failed to filter json' if result.negative?
 
     FFI.cbuffer_to_string(json_output_buffer)
+  ensure
+    [json_input_buffer, disallowed_value_buffer, json_output_buffer].compact.each(&:free)
   end
 
   def base64_encode(input)
@@ -60,6 +64,8 @@ module CobhanModule
     raise 'Failed to base64 encode' if result.negative?
 
     FFI.cbuffer_to_string(output_buffer)
+  ensure
+    [input_buffer, output_buffer].compact.each(&:free)
   end
 
   def sleep_test(seconds)

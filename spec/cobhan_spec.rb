@@ -83,6 +83,8 @@ RSpec.describe Cobhan do
       expect(memory_pointer.get_int32(0)).to eq(input.bytesize)
       expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
       expect(memory_pointer.get_bytes(Cobhan::BUFFER_HEADER_SIZE, input.bytesize)).to eq(input)
+    ensure
+      memory_pointer&.free
     end
   end
 
@@ -92,6 +94,8 @@ RSpec.describe Cobhan do
       output = CobhanApp.cbuffer_to_string(memory_pointer)
       expect(output).to eq(input)
       expect(output.encoding).to eq(Encoding::UTF_8)
+    ensure
+      memory_pointer&.free
     end
 
     it 'returns a string from C buffer pointing to a temp file' do
@@ -112,6 +116,8 @@ RSpec.describe Cobhan do
       output = CobhanApp.cbuffer_to_string(out_buffer)
       expect(output).to eq('A' * 2048)
       expect(output.encoding).to eq(Encoding::UTF_8)
+    ensure
+      [in_buffer, out_buffer].compact.each(&:free)
     end
   end
 
@@ -131,6 +137,8 @@ RSpec.describe Cobhan do
 
       expect(CobhanApp.temp_to_string(buffer_ptr, length)).to eq('content')
       expect(File.exist?(file.path)).to eq(false)
+    ensure
+      buffer_ptr&.free
     end
   end
 
@@ -140,6 +148,8 @@ RSpec.describe Cobhan do
       expect(memory_pointer.get_int32(0)).to eq(10)
       expect(memory_pointer.get_int32(Cobhan::SIZEOF_INT32)).to eq(0)
       expect(memory_pointer.size).to eq(10 + Cobhan::BUFFER_HEADER_SIZE)
+    ensure
+      memory_pointer&.free
     end
   end
 
@@ -149,6 +159,8 @@ RSpec.describe Cobhan do
       memory_pointer = CobhanApp.int_to_buffer(number)
       expect(memory_pointer.get_int64(0)).to eq(number)
       expect(memory_pointer.size).to eq(Cobhan::SIZEOF_INT32 * 2)
+    ensure
+      memory_pointer&.free
     end
   end
 
@@ -157,6 +169,8 @@ RSpec.describe Cobhan do
       number = (2**63) - 1
       memory_pointer = CobhanApp.int_to_buffer(number)
       expect(CobhanApp.buffer_to_int(memory_pointer)).to eq(number)
+    ensure
+      memory_pointer&.free
     end
   end
 end
