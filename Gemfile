@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in cobhan.gemspec
 gemspec
 
+gem 'json', '~> 2.7.0' # Pin to avoid ARM64 compilation issues with 2.19.0
 gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.10.0'
 gem 'rubocop', '~> 1.7'

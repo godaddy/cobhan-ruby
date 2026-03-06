@@ -14,12 +14,12 @@ jobs:
     name: ${{ matrix.os }} ruby-${{ matrix.ruby }}
     strategy:
       matrix:
-        os: [ ubuntu-20.04, macos-11 ]
-        ruby: [ 2.5, 2.6, 2.7, 3.0, 3.1, 3.2 ]
+        os: [ ubuntu-22.04, macos-15 ]
+        ruby: [ 2.7, 3.0, 3.1, 3.2, 3.3, 3.4, 4.0 ]
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -29,29 +29,25 @@ jobs:
           bundler-cache: true
 
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v6.3.0
         with:
-          go-version: '1.20.5'
+          go-version: '1.24'
 
       - name: Build Linux
-        if: matrix.os == 'ubuntu-20.04'
+        if: matrix.os == 'ubuntu-22.04'
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.so libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-x64.so .
 
       - name: Build Darwin
-        if: matrix.os == 'macos-11'
+        if: matrix.os == 'macos-15'
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          GOOS=darwin GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.dylib libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 go build -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-arm64.dylib .
 
       - name: Run specs
         run: |
@@ -67,16 +63,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - { os: ubuntu-20.04, ruby: 3.2 }
+          - { os: ubuntu-22.04, ruby: 3.2 }
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v6.3.0
         with:
-          go-version: '1.20.5'
+          go-version: '1.24'
 
       - name: Install OS dependencies
         shell: bash
@@ -87,11 +83,9 @@ jobs:
       - name: Build Linux ARM64
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=aarch64-linux-gnu-gcc go build -v -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-arm64.so libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=aarch64-linux-gnu-gcc go build -v -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-arm64.so .
 
       - name: Run specs and rubocop checks
         shell: bash
