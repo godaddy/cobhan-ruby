@@ -37,21 +37,17 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.so libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-x64.so .
 
       - name: Build Darwin
         if: matrix.os == 'macos-15'
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          GOOS=darwin GOARCH=amd64 go build -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-x64.dylib libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 go build -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-arm64.dylib .
 
       - name: Run specs
         run: |
@@ -87,11 +83,9 @@ jobs:
       - name: Build Linux ARM64
         shell: bash
         run: |
-          BUILD_DIR="tmp"
-          mkdir $BUILD_DIR
-          cp -R spec/support/libcobhandemo/* $BUILD_DIR
-          cd tmp
-          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=aarch64-linux-gnu-gcc go build -v -buildmode=c-shared -ldflags='-s -w' -o libcobhandemo-arm64.so libcobhandemo.go
+          mkdir -p tmp
+          cd spec/support/libcobhandemo
+          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=aarch64-linux-gnu-gcc go build -v -buildmode=c-shared -ldflags='-s -w' -o ../../../tmp/libcobhandemo-arm64.so .
 
       - name: Run specs and rubocop checks
         shell: bash
