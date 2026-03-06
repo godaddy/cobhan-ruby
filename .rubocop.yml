@@ -29,3 +29,6 @@ Style/BlockDelimiters:
 
 Style/HashAsLastArrayItem:
   Enabled: false
+
+Style/EmptyClassDefinition:
+  Enabled: false
