@@ -65,7 +65,7 @@ RSpec.describe Cobhan do
       expect {
         CobhanApp.add_int32(1, 2)
       }.to raise_error(NoMethodError) do |e|
-        expect(e.message).to include("undefined method `addInt32'")
+        expect(e.message).to include("undefined method `addInt32'").or include("undefined method 'addInt32'")
       end
 
       CobhanApp.load_library(
